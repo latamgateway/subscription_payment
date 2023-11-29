@@ -1,6 +1,8 @@
 module RecurringBilling
   module Services
     class Recurring
+      extend T::Sig
+
       def initialize
         @environment = ENV['BRAINTREE_ENVIRONMENT']
         @merchant_id = ENV['BRAINTREE_MERCHANT_ID']
@@ -13,17 +15,18 @@ module RecurringBilling
           public_key: @public_key,
           private_key: @private_key
         ).gateway
-
-        puts "@gateway #{@gateway}"
       end
 
-      def create_plan(plan:)
-        puts @gateway
+      sig do
+        params(plan: RecurringBilling::Entity::Plan)
+          .returns(::Braintree::SuccessfulResult)
+      end
+      def create_plan(plan)
         @gateway.plan.create(
-          :name => plan[:name],
-          :billing_frequency => plan[:frequency],
-          :currency_iso_code => plan[:currency],
-          :price => plan[:price]
+          :name => plan.name,
+          :billing_frequency => plan.frequency,
+          :currency_iso_code => plan.currency,
+          :price => plan.price
         )
       end
     end

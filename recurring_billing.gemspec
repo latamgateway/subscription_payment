@@ -32,5 +32,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency('sorbet-runtime')
   spec.add_dependency('braintree')
+  
   spec.add_development_dependency('dotenv')
+  spec.add_development_dependency('sorbet-static')
 end

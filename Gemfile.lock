@@ -54,6 +54,7 @@ GEM
       parser (>= 3.2.1.0)
     ruby-progressbar (1.13.0)
     sorbet-runtime (0.5.11142)
+    sorbet-static (0.5.10789-universal-darwin-21)
     unicode-display_width (2.5.0)
 
 PLATFORMS
@@ -65,6 +66,7 @@ DEPENDENCIES
   recurring_billing!
   rspec (~> 3.0)
   rubocop (~> 1.21)
+  sorbet-static
 
 BUNDLED WITH
    2.4.13
