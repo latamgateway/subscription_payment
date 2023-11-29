@@ -12,10 +12,13 @@ module RecurringBilling
           merchant_id: @merchant_id,
           public_key: @public_key,
           private_key: @private_key
-        )
+        ).gateway
+
+        puts "@gateway #{@gateway}"
       end
 
       def create_plan(plan:)
+        puts @gateway
         @gateway.plan.create(
           :name => plan[:name],
           :billing_frequency => plan[:frequency],

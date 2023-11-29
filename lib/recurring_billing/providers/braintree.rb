@@ -9,12 +9,12 @@ module RecurringBilling
       end
 
       def gateway
-        Braintree::Gateway.new(
+        ::Braintree::Gateway.new(
           :environment => @environment,
           :merchant_id => @merchant_id,
           :public_key => @public_key,
           :private_key => @private_key,
-          )
+        )
       end
     end
   end
