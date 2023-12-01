@@ -36,6 +36,15 @@ module RecurringBilling
         gateway_customer = @gateway.create_customer(customer)
         customer.id = gateway_customer.id
       end
+
+      def create_payment_method_nonce(credit_card_token)
+        @gateway.create_payment_method_nonce(credit_card_token)
+      end
+
+      def create_subscription(credit_card_token, plan_id)
+        @gateway.subscription.create(credit_card_token, plan_id)
+      end
+
     end
   end
 end

@@ -69,6 +69,19 @@ module RecurringBilling
           }
         )
       end
+
+      def create_payment_method_nonce(credit_card_token)
+        result = gateway.payment_method_nonce.create(credit_card_token)
+        result.payment_method_nonce.nonce
+      end
+
+      def create_subscription(credit_card_token, plan_id)
+        gateway.subscription.create(
+          :payment_method_token => card_token,
+          :plan_id => plan_id
+        )
+      end
+
     end
   end
 end
