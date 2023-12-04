@@ -1,18 +1,17 @@
 module RecurringBilling
-  module Services
-    class Recurring < RecurringBilling::Services::Factory
+  module Gateway
+    class Recurring
       extend T::Sig
 
-      # def initialize
-      #   @service = RecurringBilling::Services::Factory.new.get_service
-      # end
+      def initialize
+        @service = RecurringBilling::Factories::Factory.new.service
+      end
 
       # sig do
       #   params(plan: RecurringBilling::Entity::Plan)
       #     .returns(::Braintree::SuccessfulResult)
       # end
       def create_plan(plan)
-        puts 'passei aqui'
         @service.create_plan(plan)
       end
 

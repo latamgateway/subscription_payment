@@ -1,6 +1,6 @@
 module RecurringBilling
   module Interfaces
-    class RecurringBillingService
+    class BaseInterface
       extend T::Sig
 
       sig do

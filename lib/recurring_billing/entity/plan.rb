@@ -15,13 +15,14 @@ module RecurringBilling
       sig do
         params(
           name: String,
-          id: String,
           frequency: Integer,
           currency: String,
-          price: Float
+          price: Float,
+          id: T.nilable(String)
         ).void
       end
-      def initialize(name:, frequency:, currency:, price:, id:)
+
+      def initialize(name:, frequency:, currency:, price:, id: nil)
         @name = name
         @frequency = frequency
         @currency = currency

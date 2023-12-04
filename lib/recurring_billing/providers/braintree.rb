@@ -32,12 +32,16 @@ module RecurringBilling
       end
 
       def create_plan(plan)
-        gateway.plan.create(
+        payload = {
           :name => plan.name,
           :billing_frequency => plan.frequency,
           :currency_iso_code => plan.currency,
           :price => plan.price
-        )
+        }
+
+        payload[:id] = plan.id unless plan.id.nil?
+
+        gateway.plan.create(payload)
       end
 
       def create_customer(customer)
@@ -81,8 +85,6 @@ module RecurringBilling
           :plan_id => plan_id
         )
       end
-
     end
   end
 end
-

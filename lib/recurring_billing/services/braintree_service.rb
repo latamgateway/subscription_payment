@@ -1,6 +1,6 @@
 module RecurringBilling
-  module Interfaces
-    class BraintreeService < RecurringBilling::Interfaces::RecurringBillingService
+  module Services
+    class BraintreeService < RecurringBilling::Interfaces::BaseInterface
       extend T::Sig
 
       def initialize
@@ -9,27 +9,17 @@ module RecurringBilling
         public_key = ENV['BRAINTREE_PUBLIC_KEY']
         private_key = ENV['BRAINTREE_PRIVATE_KEY']
 
-        puts environment
-        puts merchant_id
-        puts public_key
-        puts private_key
-
-        @braintree = RecurringBilling::Providers::Braintree.new(
+        @gateway = RecurringBilling::Providers::Braintree.new(
           environment: environment,
           merchant_id: merchant_id,
           public_key: public_key,
           private_key: private_key
         )
-
-        puts @braintree
-        @gateway = @braintree.gateway
-        puts @gateway
-        @gateway
       end
 
       def create_plan(plan)
-        gateway_plan = @gateway.plan.create(plan)
-        plan.id = gateway_plan.id
+        gateway_plan = @gateway.create_plan(plan)
+        plan.id = gateway_plan.plan.id
       end
 
       def create_customer(customer)

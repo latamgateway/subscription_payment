@@ -1,15 +1,16 @@
 module RecurringBilling
-  module Services
+  module Factories
     class Factory
       # extend T::Sig
 
       SERVICES = {
-        braintree: RecurringBilling::Interfaces::BraintreeService.new
+        braintree: RecurringBilling::Services::BraintreeService
       }.freeze
 
-      def initialize
+      def service
         provider = ENV['PROVIDER']
-        @service = SERVICES[provider.to_sym]
+        service = SERVICES[provider.to_sym]
+        service.new
       end
       
     end

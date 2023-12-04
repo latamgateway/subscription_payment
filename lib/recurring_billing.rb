@@ -6,21 +6,23 @@ require 'braintree'
 require 'recurring_billing/version'
 require 'recurring_billing/exceptions/general_error'
 
-# Providers
-require 'recurring_billing/providers/braintree'
-
 # Entities
 require 'recurring_billing/entity/plan'
 
-# Factory
-require 'recurring_billing/services/factory'
+# Providers
+require 'recurring_billing/providers/braintree'
 
 # Interfaces
-require 'recurring_billing/interfaces/recurring_billing_service'
-require 'recurring_billing/interfaces/braintree_service'
+require 'recurring_billing/interfaces/base_interface'
 
 # Services
-require 'recurring_billing/services/recurring'
+require 'recurring_billing/services/braintree_service'
+
+# Factory
+require 'recurring_billing/factories/factory'
+
+# Services
+require 'recurring_billing/gateway/recurring'
 
 
 
