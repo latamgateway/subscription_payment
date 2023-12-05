@@ -1,14 +1,16 @@
-module RecurringBilling
+# frozen_string_literal: true
+
+module SubscriptionPayment
   module Gateway
     class Recurring
       extend T::Sig
 
       def initialize
-        @service = RecurringBilling::Factories::Factory.new.service
+        @service = SubscriptionPayment::Factories::Factory.new.service
       end
 
       # sig do
-      #   params(plan: RecurringBilling::Entity::Plan)
+      #   params(plan: SubscriptionPayment::Entity::Plan)
       #     .returns(::Braintree::SuccessfulResult)
       # end
       def create_plan(plan)
@@ -21,7 +23,7 @@ module RecurringBilling
       #   @public_key = ENV['BRAINTREE_PUBLIC_KEY']
       #   @private_key = ENV['BRAINTREE_PRIVATE_KEY']
 
-      #   @gateway = RecurringBilling::Providers::Braintree.new(
+      #   @gateway = SubscriptionPayment::Providers::Braintree.new(
       #     environment: @environment,
       #     merchant_id: @merchant_id,
       #     public_key: @public_key,
@@ -30,7 +32,7 @@ module RecurringBilling
       # end
 
       # sig do
-      #   params(plan: RecurringBilling::Entity::Plan)
+      #   params(plan: SubscriptionPayment::Entity::Plan)
       #     .returns(::Braintree::SuccessfulResult)
       # end
       # def create_plan(plan)

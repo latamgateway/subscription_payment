@@ -1,15 +1,18 @@
-module RecurringBilling
+# frozen_string_literal: true
+
+module SubscriptionPayment
   module Services
-    class BraintreeService < RecurringBilling::Interfaces::BaseInterface
+    class BraintreeService
       extend T::Sig
+      extend SubscriptionPayment::Interfaces
 
       def initialize
-        environment = ENV['BRAINTREE_ENVIRONMENT']
-        merchant_id = ENV['BRAINTREE_MERCHANT_ID']
-        public_key = ENV['BRAINTREE_PUBLIC_KEY']
-        private_key = ENV['BRAINTREE_PRIVATE_KEY']
+        environment = ENV["BRAINTREE_ENVIRONMENT"]
+        merchant_id = ENV["BRAINTREE_MERCHANT_ID"]
+        public_key = ENV["BRAINTREE_PUBLIC_KEY"]
+        private_key = ENV["BRAINTREE_PRIVATE_KEY"]
 
-        @gateway = RecurringBilling::Providers::Braintree.new(
+        @gateway = SubscriptionPayment::Providers::Braintree.new(
           environment: environment,
           merchant_id: merchant_id,
           public_key: public_key,
@@ -34,7 +37,6 @@ module RecurringBilling
       def create_subscription(credit_card_token, plan_id)
         @gateway.subscription.create(credit_card_token, plan_id)
       end
-
     end
   end
 end

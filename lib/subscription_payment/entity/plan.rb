@@ -1,4 +1,6 @@
-module RecurringBilling
+# frozen_string_literal: true
+
+module SubscriptionPayment
   module Entity
     class Plan
       extend T::Sig

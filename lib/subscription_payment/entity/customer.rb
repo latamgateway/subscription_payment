@@ -1,4 +1,6 @@
-module RecurringBilling
+# frozen_string_literal: true
+
+module SubscriptionPayment
   module Entity
     class Customer
       extend T::Sig
@@ -6,10 +8,10 @@ module RecurringBilling
       sig { returns(String) }
       attr_accessor :id, :first_name, :last_name, :company, :email, :phone, :fax, :website
 
-      sig { returns(RecurringBilling::Entity::CreditCard) }
+      sig { returns(SubscriptionPayment::Entity::CreditCard) }
       attr_accessor :credit_card
 
-      sig { returns(RecurringBilling::Entity::BillingAddress) }
+      sig { returns(SubscriptionPayment::Entity::BillingAddress) }
       attr_accessor :billing_address
 
       sig do

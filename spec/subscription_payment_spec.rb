@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe RecurringBilling do
+RSpec.describe SubscriptionPayment do
   it "has a version number" do
-    expect(RecurringBilling::VERSION).not_to be nil
+    expect(SubscriptionPayment::VERSION).not_to be nil
   end
 
   it "does something useful" do

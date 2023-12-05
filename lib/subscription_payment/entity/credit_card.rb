@@ -1,4 +1,6 @@
-module RecurringBilling
+# frozen_string_literal: true
+
+module SubscriptionPayment
   module Entity
     class CreditCard
       extend T::Sig
