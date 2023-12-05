@@ -12,7 +12,7 @@ module SubscriptionPayment
         public_key = ENV["BRAINTREE_PUBLIC_KEY"]
         private_key = ENV["BRAINTREE_PRIVATE_KEY"]
 
-        @gateway = SubscriptionPayment::Providers::Braintree.new(
+        @provider = SubscriptionPayment::Providers::Braintree::Gateway.new(
           environment: environment,
           merchant_id: merchant_id,
           public_key: public_key,
@@ -21,8 +21,14 @@ module SubscriptionPayment
       end
 
       def create_plan(plan)
-        gateway_plan = @gateway.create_plan(plan)
-        plan.id = gateway_plan.plan.id
+        service = SubscriptionPayment::Providers::Braintree::Plan.new
+        response = service.create(gateway: @provider.gateway, plan: plan)
+        plan.id = response.plan.id
+      end
+
+      def find_plan(plan_id)
+        service = SubscriptionPayment::Providers::Braintree::Plan.new
+        service.find(gateway: @provider.gateway, plan_id: plan_id)
       end
 
       def create_customer(customer)

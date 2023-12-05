@@ -17,6 +17,10 @@ module SubscriptionPayment
         @service.create_plan(plan)
       end
 
+      def find_plan(plan_id)
+        @service.find_plan(plan_id)
+      end
+
       # def initialize
       #   @environment = ENV['BRAINTREE_ENVIRONMENT']
       #   @merchant_id = ENV['BRAINTREE_MERCHANT_ID']

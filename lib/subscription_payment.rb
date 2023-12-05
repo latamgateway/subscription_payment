@@ -10,7 +10,9 @@ require "subscription_payment/exceptions/general_error"
 require "subscription_payment/entity/plan"
 
 # Providers
-require "subscription_payment/providers/braintree"
+# Braintree
+require "subscription_payment/providers/braintree/gateway"
+require "subscription_payment/providers/braintree/plan"
 
 # Interfaces
 require "subscription_payment/interfaces/base"
