@@ -3,6 +3,7 @@
 # General
 require "sorbet-runtime"
 require "braintree"
+require "logger"
 require "subscription_payment/version"
 require "subscription_payment/exceptions/general_error"
 
@@ -34,4 +35,6 @@ require "subscription_payment/gateway/recurring"
 
 # The main module
 module SubscriptionPayment
+  @logger = Logger.new(STDOUT)
+  @logger.level = Logger::DEBUG
 end

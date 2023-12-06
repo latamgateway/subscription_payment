@@ -6,7 +6,7 @@ module SubscriptionPayment
       extend T::Sig
 
       sig { returns(String) }
-      attr_accessor :first_name, :last_name, :company, :email, :phone, :fax, :website, :id, :credit_card_token
+      attr_accessor :first_name, :email, :phone, :document, :id, :credit_card_token
 
       sig { returns(SubscriptionPayment::Entity::CreditCard) }
       attr_accessor :credit_card
@@ -19,16 +19,18 @@ module SubscriptionPayment
           first_name: String,
           email: String,
           phone: String,
-          credit_card: CreditCard,
-          billing_address: BillingAddress,
+          document: String,
+          credit_card: SubscriptionPayment::Entity::CreditCard,
+          billing_address: SubscriptionPayment::Entity::BillingAddress,
           id: T.nilable(String),
           credit_card_token: T.nilable(String)
         ).void
       end
       def initialize(
-        first_name:, 
-        email:, 
-        phone:, 
+        first_name:,
+        email:,
+        phone:,
+        document:,
         credit_card:, 
         billing_address:, 
         id: nil,
@@ -37,6 +39,7 @@ module SubscriptionPayment
         @first_name = first_name
         @email = email
         @phone = phone
+        @document = document
         @credit_card = credit_card
         @billing_address = billing_address
         @id = id
