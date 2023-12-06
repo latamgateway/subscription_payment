@@ -8,11 +8,16 @@ require "subscription_payment/exceptions/general_error"
 
 # Entities
 require "subscription_payment/entity/plan"
+require "subscription_payment/entity/billing_address"
+require "subscription_payment/entity/credit_card"
+require "subscription_payment/entity/customer"
 
 # Providers
 # Braintree
 require "subscription_payment/providers/braintree/gateway"
 require "subscription_payment/providers/braintree/plan"
+require "subscription_payment/providers/braintree/customer"
+require "subscription_payment/providers/braintree/credit_card_token"
 
 # Interfaces
 require "subscription_payment/interfaces/base"

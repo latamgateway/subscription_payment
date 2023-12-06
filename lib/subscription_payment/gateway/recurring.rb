@@ -21,6 +21,14 @@ module SubscriptionPayment
         @service.find_plan(plan_id)
       end
 
+      def create_customer(customer)
+        @service.create_customer(customer)
+      end
+
+      def create_payment_method_nonce(credit_card_token)
+        @service.create_payment_method_nonce(credit_card_token)
+      end
+
       # def initialize
       #   @environment = ENV['BRAINTREE_ENVIRONMENT']
       #   @merchant_id = ENV['BRAINTREE_MERCHANT_ID']

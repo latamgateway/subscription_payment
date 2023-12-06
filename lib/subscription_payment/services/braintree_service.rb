@@ -7,7 +7,7 @@ module SubscriptionPayment
       extend SubscriptionPayment::Interfaces
 
       def initialize
-        environment = ENV["BRAINTREE_ENVIRONMENT"]
+        environment = ENV["BRAINTREE_ENV"]
         merchant_id = ENV["BRAINTREE_MERCHANT_ID"]
         public_key = ENV["BRAINTREE_PUBLIC_KEY"]
         private_key = ENV["BRAINTREE_PRIVATE_KEY"]
@@ -32,12 +32,16 @@ module SubscriptionPayment
       end
 
       def create_customer(customer)
-        gateway_customer = @gateway.create_customer(customer)
-        customer.id = gateway_customer.id
+        service = SubscriptionPayment::Providers::Braintree::Customer.new
+        result = service.create(gateway: @provider.gateway, customer: customer)
+        customer.id = result.customer.id
+        customer.credit_card_token = result.customer.payment_methods[0].token
+        return customer
       end
 
       def create_payment_method_nonce(credit_card_token)
-        @gateway.create_payment_method_nonce(credit_card_token)
+        service = SubscriptionPayment::Providers::Braintree::CreditCardToken.new
+        service.create_payment_method_nonce(gateway: @provider.gateway, credit_card_token: credit_card_token)
       end
 
       def create_subscription(credit_card_token, plan_id)

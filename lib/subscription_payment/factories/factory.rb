@@ -8,7 +8,7 @@ module SubscriptionPayment
       }.freeze
 
       def service
-        provider = ENV["PROVIDER"]
+        provider = ENV["SUBSCRIPTION_PAYMENT_PROVIDER"]
         service = SERVICES[provider.to_sym]
         service.new
       end
