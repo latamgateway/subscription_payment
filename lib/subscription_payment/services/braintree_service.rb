@@ -44,8 +44,10 @@ module SubscriptionPayment
         service.create_payment_method_nonce(gateway: @provider.gateway, credit_card_token: credit_card_token)
       end
 
-      def create_subscription(credit_card_token, plan_id)
-        @gateway.subscription.create(credit_card_token, plan_id)
+      def create_subscription(payment_method_nonce_token, plan_id)
+        service = SubscriptionPayment::Providers::Braintree::Subscription.new
+        result = service.create(gateway: @provider.gateway, payment_method_nonce_token: payment_method_nonce_token , plan_id: plan_id)
+        result.subscription.id
       end
     end
   end
