@@ -44,19 +44,6 @@ module SubscriptionPayment
 
         private
 
-        def to_plan(from)
-          SubscriptionPayment::Entity::Plan.new(
-            name: from.name,
-            frequency: from.billing_frequency,
-            currency: from.currency_iso_code,
-            price: from.price.to_f,
-            id: from.id,
-            billing_day_of_month: from.billing_day_of_month,
-            number_of_billing_cycles: from.number_of_billing_cycles,
-            description: from.description,
-          )
-        end
-
         def plan_payload(plan)
           payload = {
             name: plan.name,

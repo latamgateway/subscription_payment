@@ -65,22 +65,6 @@ module SubscriptionPayment
           result = gateway.payment_method_nonce.create(token)
           result.payment_method_nonce.nonce
         end
-
-        private
-
-        def to_credit_card(from)
-          hash_fields = {
-            customer_id: from.customer_id,
-            holder_name: from.cardholder_name,
-            number: "#{from.bin}**#{from.last_4}",
-            expiration_date: "#{from.expiration_month}/#{from.expiration_year}",
-            cvv: "***",
-            token: from.token
-          }
-          hash_fields[:address_id] = from.billing_address.id unless from.billing_address.nil?
-
-          SubscriptionPayment::Entity::CreditCard.new(**hash_fields)
-        end
       end
     end
   end

@@ -58,22 +58,6 @@ module SubscriptionPayment
           puts result.inspect
           to_subscription(result.subscription)
         end
-
-        private
-
-        def to_subscription(from)
-          SubscriptionPayment::Entity::Subscription.new(
-            id: from.id,
-            status: from.status,
-            plan_id: from.plan_id,
-            created_at: from.created_at.strftime("%Y-%m-%d"),
-            price: from.price.to_f,
-            billing_day_of_month: from.billing_day_of_month,
-            current_billing_cycle: from.current_billing_cycle,
-            days_past_due: from.days_past_due,
-            failure_count: from.failure_count
-          )
-        end
       end
     end
   end

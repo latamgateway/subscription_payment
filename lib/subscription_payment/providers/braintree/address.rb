@@ -53,20 +53,6 @@ module SubscriptionPayment
           result = gateway.address.update(address.customer_id, address.id, payload)
           to_address(result.address)
         end
-
-        private
-
-        def to_address(from)
-          SubscriptionPayment::Entity::Address.new(
-            customer_id: from.customer_id,
-            street_address: from.street_address,
-            locality: from.locality,
-            region: from.region,
-            postal_code: from.postal_code,
-            extended_address: from.extended_address,
-            id: from.id
-          )
-        end
       end
     end
   end

@@ -64,17 +64,6 @@ module SubscriptionPayment
 
           to_customer(response.customer)
         end
-
-        private
-
-        def to_customer(from)
-          SubscriptionPayment::Entity::Customer.new(
-            first_name: from.first_name,
-            email: from.email,
-            phone: from.phone,
-            document: from.custom_fields[:document],
-            )
-        end
       end
     end
   end
