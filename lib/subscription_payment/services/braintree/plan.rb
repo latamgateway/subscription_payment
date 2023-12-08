@@ -9,7 +9,7 @@ module SubscriptionPayment
         end
 
         def find(id:)
-
+          @service.find(id: id)
         end
 
         def create(plan:)
@@ -17,7 +17,7 @@ module SubscriptionPayment
         end
 
         def update(plan:)
-
+          @service.update(plan: plan)
         end
       end
     end

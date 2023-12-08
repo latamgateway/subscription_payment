@@ -10,6 +10,7 @@ require "subscription_payment/entity/plan"
 require "subscription_payment/entity/address"
 require "subscription_payment/entity/credit_card"
 require "subscription_payment/entity/customer"
+require "subscription_payment/entity/subscription"
 
 # Providers
 #

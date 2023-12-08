@@ -8,7 +8,7 @@ module SubscriptionPayment
       end
 
       def find(customer_id:, id:)
-        @service.address.find(customer_id: customer_id, id: id)
+        @service.address.find(id: id, customer_id: customer_id)
       end
 
       def create(address:)

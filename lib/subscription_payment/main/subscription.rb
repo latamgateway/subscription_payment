@@ -11,12 +11,20 @@ module SubscriptionPayment
         @service.subscription.find(id: id)
       end
 
-      def create(subscription:)
-        @service.subscription.create(subscription: subscription)
+      def create(payment_method_nonce:, plan_id:)
+        @service.subscription.create(payment_method_nonce: payment_method_nonce, plan_id: plan_id)
       end
 
-      def update(subscription:)
-        @service.subscription.update(subscription: subscription)
+      def update(id:, payment_method_nonce:)
+        @service.subscription.update(id: id, payment_method_nonce: payment_method_nonce)
+      end
+
+      def cancel(id:)
+        @service.subscription.cancel(id: id)
+      end
+
+      def retry_charge(id:)
+        @service.subscription.retry_charge(id: id)
       end
     end
   end

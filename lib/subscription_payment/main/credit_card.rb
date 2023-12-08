@@ -19,8 +19,8 @@ module SubscriptionPayment
         @service.credit_card.update(credit_card: credit_card)
       end
 
-      def create_nonce(credit_card:)
-        @service.credit_card.create_nonce(credit_card: credit_card)
+      def create_nonce(token:)
+        @service.credit_card.create_nonce(token: token)
       end
     end
   end

@@ -4,20 +4,24 @@ module SubscriptionPayment
   module Services
     module Braintree
       class CreditCard
-        def find(token:)
+        def initialize
+          @service = SubscriptionPayment::Providers::Braintree::CreditCard.new
+        end
 
+        def find(token:)
+          @service.find(token: token)
         end
 
         def create(credit_card:)
-
+          @service.create(credit_card: credit_card)
         end
 
         def update(credit_card:)
-
+          @service.update(credit_card: credit_card)
         end
 
-        def create_nonce(credit_card:)
-
+        def create_nonce(token:)
+          @service.create_nonce(token: token)
         end
       end
     end

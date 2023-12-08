@@ -8,33 +8,35 @@ module SubscriptionPayment
 
         sig do
           params(
-            plan_id: String
+            id: String
           ).returns(SubscriptionPayment::Entity::Plan)
         end
-        def find(plan_id:)
-          plan = gateway.plan.find(plan_id)
+        def find(id:)
+          plan = gateway.plan.find(id)
           to_plan(plan)
         end
 
         sig do
           params(
             plan: SubscriptionPayment::Entity::Plan
-          ).returns(::Braintree::SuccessfulResult)
+          ).returns(SubscriptionPayment::Entity::Plan)
         end
         def create(plan:)
-          payload = plan_payload
+          payload = plan_payload(plan)
           response = gateway.plan.create(payload)
+          puts response.plan
           to_plan(response.plan)
         end
 
         sig do
           params(
             plan: SubscriptionPayment::Entity::Plan
-          ).returns(::Braintree::SuccessfulResult)
+          ).returns(SubscriptionPayment::Entity::Plan)
         end
         def update(plan:)
-          payload = plan_payload
+          payload = plan_payload(plan)
           payload.delete(:id)
+          payload.delete(:billing_frequency)
 
           response = gateway.plan.update(plan.id, payload)
           to_plan(response.plan)
@@ -47,7 +49,7 @@ module SubscriptionPayment
             name: from.name,
             frequency: from.billing_frequency,
             currency: from.currency_iso_code,
-            price: BigDecimal(from.price.to_s),
+            price: from.price.to_f,
             id: from.id,
             billing_day_of_month: from.billing_day_of_month,
             number_of_billing_cycles: from.number_of_billing_cycles,
