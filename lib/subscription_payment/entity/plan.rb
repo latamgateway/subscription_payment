@@ -11,7 +11,7 @@ module SubscriptionPayment
       sig { returns(Integer) }
       attr_accessor :frequency, :billing_day_of_month, :number_of_billing_cycles
 
-      sig { returns(BigDecimal) }
+      sig { returns(Float) }
       attr_accessor :price
 
       sig do
@@ -19,7 +19,7 @@ module SubscriptionPayment
           name: String,
           frequency: Integer,
           currency: String,
-          price: BigDecimal,
+          price: Float,
           id: T.nilable(String),
           billing_day_of_month: T.nilable(Integer),
           number_of_billing_cycles: T.nilable(Integer),

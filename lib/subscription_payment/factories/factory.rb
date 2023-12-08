@@ -4,7 +4,7 @@ module SubscriptionPayment
   module Factories
     class Factory
       SERVICES = {
-        braintree: SubscriptionPayment::Services::BraintreeService
+        braintree: SubscriptionPayment::Services::Braintree::Gateway
       }.freeze
 
       def service

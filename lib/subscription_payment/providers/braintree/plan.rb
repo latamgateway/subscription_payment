@@ -3,16 +3,59 @@
 module SubscriptionPayment
   module Providers
     module Braintree
-      class Plan
+      class Plan < SubscriptionPayment::Providers::Braintree::Base
         extend T::Sig
 
         sig do
           params(
-            gateway: ::Braintree::Gateway,
+            plan_id: String
+          ).returns(SubscriptionPayment::Entity::Plan)
+        end
+        def find(plan_id:)
+          plan = gateway.plan.find(plan_id)
+          to_plan(plan)
+        end
+
+        sig do
+          params(
             plan: SubscriptionPayment::Entity::Plan
           ).returns(::Braintree::SuccessfulResult)
         end
-        def create(gateway:, plan:)
+        def create(plan:)
+          payload = plan_payload
+          response = gateway.plan.create(payload)
+          to_plan(response.plan)
+        end
+
+        sig do
+          params(
+            plan: SubscriptionPayment::Entity::Plan
+          ).returns(::Braintree::SuccessfulResult)
+        end
+        def update(plan:)
+          payload = plan_payload
+          payload.delete(:id)
+
+          response = gateway.plan.update(plan.id, payload)
+          to_plan(response.plan)
+        end
+
+        private
+
+        def to_plan(from)
+          SubscriptionPayment::Entity::Plan.new(
+            name: from.name,
+            frequency: from.billing_frequency,
+            currency: from.currency_iso_code,
+            price: BigDecimal(from.price.to_s),
+            id: from.id,
+            billing_day_of_month: from.billing_day_of_month,
+            number_of_billing_cycles: from.number_of_billing_cycles,
+            description: from.description,
+          )
+        end
+
+        def plan_payload(plan)
           payload = {
             name: plan.name,
             billing_frequency: plan.frequency,
@@ -20,40 +63,11 @@ module SubscriptionPayment
             price: plan.price
           }
 
+          payload[:billing_day_of_month] = plan.billing_day_of_month unless plan.billing_day_of_month.nil?
+          payload[:number_of_billing_cycles] = plan.number_of_billing_cycles unless plan.number_of_billing_cycles.nil?
+          payload[:description] = plan.description unless plan.description.nil?
           payload[:id] = plan.id unless plan.id.nil?
-
-          gateway.plan.create(payload)
-        end
-
-        sig do
-          params(
-            gateway: ::Braintree::Gateway,
-            plan_id: String
-          ).returns(SubscriptionPayment::Entity::Plan)
-        end
-        def find(gateway:, plan_id:)
-          begin
-            plan = gateway.plan.find(plan_id)
-            to_plan(plan)
-          rescue ::Braintree::NotFoundError => e
-            # Add log
-            raise SubscriptionPayment::Exceptions::GeneralError
-          end
-        end
-
-        private
-
-        def to_plan(braintree_plain)
-          SubscriptionPayment::Entity::Plan.new(
-            name: braintree_plain.name,
-            frequency: braintree_plain.billing_frequency,
-            currency: braintree_plain.currency_iso_code,
-            price: braintree_plain.price,
-            id: braintree_plain.id,
-            billing_day_of_month: braintree_plain.billing_day_of_month,
-            number_of_billing_cycles: braintree_plain.number_of_billing_cycles,
-            description: braintree_plain.description,
-          )
+          payload
         end
       end
     end

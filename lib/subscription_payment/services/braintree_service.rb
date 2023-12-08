@@ -4,7 +4,7 @@ module SubscriptionPayment
   module Services
     class BraintreeService
       extend T::Sig
-      extend SubscriptionPayment::Interfaces
+      # extend SubscriptionPayment::Interfaces
 
       def initialize
         environment = ENV["BRAINTREE_ENV"]
@@ -39,15 +39,25 @@ module SubscriptionPayment
         return customer
       end
 
-      def create_payment_method_nonce(credit_card_token)
-        service = SubscriptionPayment::Providers::Braintree::CreditCardToken.new
-        service.create_payment_method_nonce(gateway: @provider.gateway, credit_card_token: credit_card_token)
+      def create_credit_card_nonce(token)
+        service = SubscriptionPayment::Providers::Braintree::CreditCard.new
+        service.create_nonce(gateway: @provider.gateway, token: token)
       end
 
       def create_subscription(payment_method_nonce_token, plan_id)
         service = SubscriptionPayment::Providers::Braintree::Subscription.new
         result = service.create(gateway: @provider.gateway, payment_method_nonce_token: payment_method_nonce_token , plan_id: plan_id)
         result.subscription.id
+      end
+
+      def find_credit_card(token)
+        service = SubscriptionPayment::Providers::Braintree::CreditCard.new
+        service.find(gateway: @provider.gateway, token: token)
+      end
+
+      def find_address(address_id)
+        service = SubscriptionPayment::Providers::Braintree::Address.new
+        service.find(gateway: @provider.gateway, address_id: address_id)
       end
     end
   end
