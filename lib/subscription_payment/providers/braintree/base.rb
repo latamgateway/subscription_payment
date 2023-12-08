@@ -45,6 +45,7 @@ module SubscriptionPayment
 
           payload[:addresses] = addresses if addresses.size > 0
           payload[:credit_cards] = credit_cards if credit_cards.size > 0
+          payload[:id] = from.id unless from.id.nil?
 
           SubscriptionPayment::Entity::Customer.new(**payload)
         end
