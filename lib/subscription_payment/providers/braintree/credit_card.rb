@@ -44,13 +44,8 @@ module SubscriptionPayment
         end
         def update(credit_card:)
           payload = {
-            cardholder_name: credit_card.holder_name,
-            number: credit_card.number,
-            expiration_date: credit_card.expiration_date,
-            cvv: credit_card.cvv,
+            billing_address_id: credit_card.address_id
           }
-
-          payload[:billing_address_id] = credit_card.address_id unless credit_card.address_id.nil?
 
           result = gateway.credit_card.update(credit_card.token, payload)
           to_credit_card(result.credit_card)
