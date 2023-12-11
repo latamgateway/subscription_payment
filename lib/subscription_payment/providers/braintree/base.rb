@@ -102,6 +102,12 @@ module SubscriptionPayment
             failure_count: from.failure_count
           )
         end
+
+        def to_client_token(token)
+          SubscriptionPayment::Entity::ClientToken.new(
+            client_token: token
+          )
+        end
       end
     end
   end

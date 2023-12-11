@@ -33,5 +33,9 @@ module SubscriptionPayment
     def subscription
       SubscriptionPayment::Main::Subscription.new(self)
     end
+
+    def client_token
+      SubscriptionPayment::Main::ClientToken.new(self)
+    end
   end
 end

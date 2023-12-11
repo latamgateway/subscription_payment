@@ -23,6 +23,10 @@ module SubscriptionPayment
         def subscription
           SubscriptionPayment::Services::Braintree::Subscription.new
         end
+
+        def client_token
+          SubscriptionPayment::Services::Braintree::ClientToken.new
+        end
       end
     end
   end
