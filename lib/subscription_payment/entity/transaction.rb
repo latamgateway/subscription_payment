@@ -15,8 +15,7 @@ module SubscriptionPayment
           status: String,
           created_at: String,
           updated_at: String,
-          amount: Float,
-          latam_id: T.nilable(String)
+          amount: Float
         ).void
       end
       def initialize(
@@ -24,15 +23,13 @@ module SubscriptionPayment
         status:,
         created_at:,
         updated_at:,
-        amount:,
-        latam_id: nil
+        amount:
       )
         @id = id
         @status = status
         @created_at = created_at
         @updated_at = updated_at
         @amount = amount
-        @latam_id = latam_id
       end
     end
   end
