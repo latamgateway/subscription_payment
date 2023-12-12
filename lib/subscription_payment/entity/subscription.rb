@@ -12,6 +12,9 @@ module SubscriptionPayment
       sig { returns(Float) }
       attr_accessor :price
 
+      sig { returns(T.nilable(T::Array[SubscriptionPayment::Entity::Transaction])) }
+      attr_accessor :transactions
+
       sig do
         params(
           id: String,
@@ -22,7 +25,8 @@ module SubscriptionPayment
           billing_day_of_month: T.nilable(Integer),
           current_billing_cycle: T.nilable(Integer),
           days_past_due: T.nilable(Integer),
-          failure_count: T.nilable(Integer)
+          failure_count: T.nilable(Integer),
+          transactions: T.nilable(T::Array[SubscriptionPayment::Entity::Transaction])
         ).void
       end
       def initialize(
@@ -31,10 +35,11 @@ module SubscriptionPayment
         plan_id:,
         created_at:,
         price:,
-        billing_day_of_month:,
-        current_billing_cycle:,
-        days_past_due:,
-        failure_count:
+        billing_day_of_month: nil,
+        current_billing_cycle: nil,
+        days_past_due: nil,
+        failure_count: nil,
+        transactions: nil
       )
         @id = id
         @status = status
@@ -45,6 +50,7 @@ module SubscriptionPayment
         @current_billing_cycle = current_billing_cycle
         @days_past_due = days_past_due
         @failure_count = failure_count
+        @transactions = transactions
       end
     end
   end

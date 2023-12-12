@@ -90,6 +90,19 @@ module SubscriptionPayment
         end
 
         def to_subscription(from)
+          transactions = []
+          from.transactions.each do |element|
+            transaction = SubscriptionPayment::Entity::Transaction.new(
+              id: element.id,
+              status: element.status,
+              created_at: element.created_at.strftime("%Y-%m-%d"),
+              updated_at: element.updated_at.strftime("%Y-%m-%d"),
+              amount: element.amount.to_f
+            )
+            transactions << transaction
+          end
+
+
           SubscriptionPayment::Entity::Subscription.new(
             id: from.id,
             status: from.status,
@@ -99,7 +112,8 @@ module SubscriptionPayment
             billing_day_of_month: from.billing_day_of_month,
             current_billing_cycle: from.current_billing_cycle,
             days_past_due: from.days_past_due,
-            failure_count: from.failure_count
+            failure_count: from.failure_count,
+            transactions: transactions
           )
         end
 
