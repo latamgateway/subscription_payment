@@ -37,5 +37,9 @@ module SubscriptionPayment
     def client_token
       SubscriptionPayment::Main::ClientToken.new(self)
     end
+
+    def webhook
+      SubscriptionPayment::Main::Webhook.new(self)
+    end
   end
 end

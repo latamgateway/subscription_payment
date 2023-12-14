@@ -97,7 +97,11 @@ module SubscriptionPayment
               status: element.status,
               created_at: element.created_at.strftime("%Y-%m-%d"),
               updated_at: element.updated_at.strftime("%Y-%m-%d"),
-              amount: element.amount.to_f
+              amount: element.amount.to_f,
+              discount_amount: element.discount_amount.to_f,
+              order_id: element.order_id,
+              tax_amount: element.tax_amount,
+              type: element.type,
             )
             transactions << transaction
           end
@@ -105,14 +109,29 @@ module SubscriptionPayment
 
           SubscriptionPayment::Entity::Subscription.new(
             id: from.id,
-            status: from.status,
-            plan_id: from.plan_id,
+            balance: from.balance.to_f,
             created_at: from.created_at.strftime("%Y-%m-%d"),
+            # never_expires: from.never_expires,
+            plan_id: from.plan_id,
             price: from.price.to_f,
+            status: from.status,
             billing_day_of_month: from.billing_day_of_month,
+            billing_period_end_date: from.billing_period_end_date.nil? ? from.billing_period_end_date : from.billing_period_end_date.strftime("%Y-%m-%d"),
+            billing_period_start_date: from.billing_period_start_date.nil? ? from.billing_period_start_date : from.billing_period_start_date.strftime("%Y-%m-%d"),
             current_billing_cycle: from.current_billing_cycle,
             days_past_due: from.days_past_due,
+            description: from.description,
             failure_count: from.failure_count,
+            first_billing_date: from.first_billing_date.strftime("%Y-%m-%d"),
+            # next_bill_amount: from.next_bill_amount.to_f,
+            next_billing_date: from.next_billing_date.strftime("%Y-%m-%d"),
+            next_billing_period_amount: from.next_billing_period_amount.to_f,
+            number_of_billing_cycles: from.number_of_billing_cycles,
+            paid_through_date: from.paid_through_date.nil? ? from.paid_through_date : from.paid_through_date.strftime("%Y-%m-%d"),
+            updated_at: from.updated_at.strftime("%Y-%m-%d"),
+            trial_duration: from.trial_duration,
+            trial_duration_unit: from.trial_duration_unit,
+            # trial_period: from.trial_period,
             transactions: transactions
           )
         end

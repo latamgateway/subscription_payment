@@ -27,6 +27,10 @@ module SubscriptionPayment
         def client_token
           SubscriptionPayment::Services::Braintree::ClientToken.new
         end
+        
+        def webhook
+          SubscriptionPayment::Services::Braintree::Webhook.new
+        end
       end
     end
   end

@@ -4,13 +4,16 @@ module SubscriptionPayment
       extend T::Sig
 
       sig { returns(String) }
-      attr_accessor :id, :status, :plan_id, :created_at
+      attr_accessor :id, :status, :plan_id, :created_at, :billing_period_end_date, :billing_period_start_date, :description, :first_billing_date, :next_billing_date, :paid_through_date, :updated_at, :trial_duration_unit
 
       sig { returns(Integer) }
-      attr_accessor :billing_day_of_month, :current_billing_cycle, :days_past_due, :failure_count
+      attr_accessor :billing_day_of_month, :current_billing_cycle, :days_past_due, :failure_count, :number_of_billing_cycles, :trial_duration
 
       sig { returns(Float) }
-      attr_accessor :price
+      attr_accessor :price, :balance, :next_billing_period_amount 
+
+      # sig { returns(Boolean) }
+      # attr_accessor :trial_period
 
       sig { returns(T.nilable(T::Array[SubscriptionPayment::Entity::Transaction])) }
       attr_accessor :transactions
@@ -18,39 +21,84 @@ module SubscriptionPayment
       sig do
         params(
           id: String,
-          status: String,
-          plan_id: String,
+          balance: Float,
           created_at: String,
+          # never_expires: Boolean,
+          plan_id: String,
           price: Float,
+          status: String,
           billing_day_of_month: T.nilable(Integer),
+          billing_period_end_date: T.nilable(String),
+          billing_period_start_date: T.nilable(String),
           current_billing_cycle: T.nilable(Integer),
           days_past_due: T.nilable(Integer),
+          description: T.nilable(String),
           failure_count: T.nilable(Integer),
+          first_billing_date: T.nilable(String),
+          # next_bill_amount: T.nilable(Float),
+          next_billing_date: T.nilable(String),
+          next_billing_period_amount: T.nilable(Float),
+          number_of_billing_cycles: T.nilable(Integer),
+          paid_through_date: T.nilable(String),
+          updated_at: T.nilable(String),
+          trial_duration: T.nilable(Integer),
+          trial_duration_unit: T.nilable(String),
+          # trial_period: T.nilable(Boolean),
           transactions: T.nilable(T::Array[SubscriptionPayment::Entity::Transaction])
         ).void
       end
       def initialize(
         id:,
-        status:,
-        plan_id:,
+        balance:,
         created_at:,
+        # never_expires:,
+        plan_id:,
         price:,
+        status:,
         billing_day_of_month: nil,
+        billing_period_end_date: nil,
+        billing_period_start_date: nil,
         current_billing_cycle: nil,
         days_past_due: nil,
+        description: nil,
         failure_count: nil,
+        first_billing_date: nil,
+        # next_bill_amount: nil,
+        next_billing_date: nil,
+        next_billing_period_amount: nil,
+        number_of_billing_cycles: nil,
+        paid_through_date: nil,
+        updated_at: nil,
+        trial_duration: nil,
+        trial_duration_unit: nil,
+        # trial_period: nil,
         transactions: nil
       )
-        @id = id
-        @status = status
-        @plan_id = plan_id
-        @created_at = created_at
-        @price = price
-        @billing_day_of_month = billing_day_of_month
-        @current_billing_cycle = current_billing_cycle
-        @days_past_due = days_past_due
-        @failure_count = failure_count
-        @transactions = transactions
+      @id= id
+      @balance= balance
+      @created_at= created_at
+      # @never_expires= never_expires
+      @plan_id= plan_id
+      @price= price
+      @status= status
+      @billing_day_of_month= billing_day_of_month
+      @billing_period_end_date= billing_period_end_date
+      @billing_period_start_date= billing_period_start_date
+      @current_billing_cycle= current_billing_cycle
+      @days_past_due= days_past_due
+      @description= description
+      @failure_count= failure_count
+      @first_billing_date= first_billing_date
+      # @next_bill_amount= next_bill_amount
+      @next_billing_date= next_billing_date
+      @next_billing_period_amount= next_billing_period_amount
+      @number_of_billing_cycles= number_of_billing_cycles
+      @paid_through_date= paid_through_date
+      @updated_at= updated_at
+      @trial_duration= trial_duration
+      @trial_duration_unit= trial_duration_unit
+      # @trial_period= trial_period
+      @transactions= transactions
       end
     end
   end
