@@ -12,8 +12,8 @@ module SubscriptionPayment
       sig { returns(Float) }
       attr_accessor :price, :balance, :next_billing_period_amount 
 
-      # sig { returns(Boolean) }
-      # attr_accessor :trial_period
+      sig { returns(T::Boolean) }
+      attr_accessor :never_expires, :trial_period
 
       sig { returns(T.nilable(T::Array[SubscriptionPayment::Entity::Transaction])) }
       attr_accessor :transactions
@@ -23,7 +23,7 @@ module SubscriptionPayment
           id: String,
           balance: Float,
           created_at: String,
-          # never_expires: Boolean,
+          never_expires: T::Boolean,
           plan_id: String,
           price: Float,
           status: String,
@@ -35,7 +35,6 @@ module SubscriptionPayment
           description: T.nilable(String),
           failure_count: T.nilable(Integer),
           first_billing_date: T.nilable(String),
-          # next_bill_amount: T.nilable(Float),
           next_billing_date: T.nilable(String),
           next_billing_period_amount: T.nilable(Float),
           number_of_billing_cycles: T.nilable(Integer),
@@ -43,7 +42,7 @@ module SubscriptionPayment
           updated_at: T.nilable(String),
           trial_duration: T.nilable(Integer),
           trial_duration_unit: T.nilable(String),
-          # trial_period: T.nilable(Boolean),
+          trial_period: T.nilable(T::Boolean),
           transactions: T.nilable(T::Array[SubscriptionPayment::Entity::Transaction])
         ).void
       end
@@ -51,7 +50,7 @@ module SubscriptionPayment
         id:,
         balance:,
         created_at:,
-        # never_expires:,
+        never_expires:,
         plan_id:,
         price:,
         status:,
@@ -63,7 +62,6 @@ module SubscriptionPayment
         description: nil,
         failure_count: nil,
         first_billing_date: nil,
-        # next_bill_amount: nil,
         next_billing_date: nil,
         next_billing_period_amount: nil,
         number_of_billing_cycles: nil,
@@ -71,13 +69,13 @@ module SubscriptionPayment
         updated_at: nil,
         trial_duration: nil,
         trial_duration_unit: nil,
-        # trial_period: nil,
+        trial_period: nil,
         transactions: nil
       )
       @id= id
       @balance= balance
       @created_at= created_at
-      # @never_expires= never_expires
+      @never_expires= never_expires
       @plan_id= plan_id
       @price= price
       @status= status
@@ -89,7 +87,6 @@ module SubscriptionPayment
       @description= description
       @failure_count= failure_count
       @first_billing_date= first_billing_date
-      # @next_bill_amount= next_bill_amount
       @next_billing_date= next_billing_date
       @next_billing_period_amount= next_billing_period_amount
       @number_of_billing_cycles= number_of_billing_cycles
@@ -97,7 +94,7 @@ module SubscriptionPayment
       @updated_at= updated_at
       @trial_duration= trial_duration
       @trial_duration_unit= trial_duration_unit
-      # @trial_period= trial_period
+      @trial_period= trial_period
       @transactions= transactions
       end
     end

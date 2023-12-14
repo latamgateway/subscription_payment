@@ -111,7 +111,7 @@ module SubscriptionPayment
             id: from.id,
             balance: from.balance.to_f,
             created_at: from.created_at.strftime("%Y-%m-%d"),
-            # never_expires: from.never_expires,
+            never_expires: from.never_expires?,
             plan_id: from.plan_id,
             price: from.price.to_f,
             status: from.status,
@@ -123,7 +123,6 @@ module SubscriptionPayment
             description: from.description,
             failure_count: from.failure_count,
             first_billing_date: from.first_billing_date.strftime("%Y-%m-%d"),
-            # next_bill_amount: from.next_bill_amount.to_f,
             next_billing_date: from.next_billing_date.strftime("%Y-%m-%d"),
             next_billing_period_amount: from.next_billing_period_amount.to_f,
             number_of_billing_cycles: from.number_of_billing_cycles,
@@ -131,7 +130,7 @@ module SubscriptionPayment
             updated_at: from.updated_at.strftime("%Y-%m-%d"),
             trial_duration: from.trial_duration,
             trial_duration_unit: from.trial_duration_unit,
-            # trial_period: from.trial_period,
+            trial_period: from.trial_period,
             transactions: transactions
           )
         end
