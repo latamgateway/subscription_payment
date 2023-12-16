@@ -41,5 +41,9 @@ module SubscriptionPayment
     def webhook
       SubscriptionPayment::Main::Webhook.new(self)
     end
+
+    def payment_method
+      SubscriptionPayment::Main::PaymentMethod.new(self)
+    end
   end
 end

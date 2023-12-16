@@ -18,12 +18,13 @@ module SubscriptionPayment
 
         sig do
           params(
+            id: String,
             payment_method_nonce: String,
             plan_id: String,
           ).returns(SubscriptionPayment::Entity::Subscription)
         end
-        def create(payment_method_nonce:, plan_id:)
-          result = gateway.subscription.create(payment_method_nonce: payment_method_nonce, plan_id: plan_id)
+        def create(id:, payment_method_nonce:, plan_id:)
+          result = gateway.subscription.create(id: id, payment_method_nonce: payment_method_nonce, plan_id: plan_id)
           to_subscription(result.subscription)
         end
 

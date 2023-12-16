@@ -92,7 +92,7 @@ module SubscriptionPayment
         def to_subscription(from)
           transactions = []
           from.transactions.each do |element|
-            transaction = SubscriptionPayment::Entity::Transaction.new(
+            transaction_hash = {
               id: element.id,
               status: element.status,
               created_at: element.created_at.strftime("%Y-%m-%d"),
@@ -102,7 +102,18 @@ module SubscriptionPayment
               order_id: element.order_id,
               tax_amount: element.tax_amount,
               type: element.type,
-            )
+              card_holder: element.credit_card_details.cardholder_name,
+              card_last_digits: element.credit_card_details.last_4,
+              card_bin: element.credit_card_details.bin,
+              card_expiration: element.credit_card_details.expiration_date,
+              card_brand: element.credit_card_details.card_type,
+            }
+
+            transaction_hash[:is_three_d_secure] = true unless element.three_d_secure_info.nil?
+            transaction_hash[:three_d_secure_status] = element.three_d_secure_info.status \
+              unless element.three_d_secure_info.nil?
+
+            transaction = SubscriptionPayment::Entity::Transaction.new(**transaction_hash)
             transactions << transaction
           end
 

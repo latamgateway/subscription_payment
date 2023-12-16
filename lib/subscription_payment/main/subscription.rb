@@ -11,8 +11,8 @@ module SubscriptionPayment
         @service.subscription.find(id: id)
       end
 
-      def create(payment_method_nonce:, plan_id:)
-        @service.subscription.create(payment_method_nonce: payment_method_nonce, plan_id: plan_id)
+      def create(id:, payment_method_nonce:, plan_id:)
+        @service.subscription.create(id: id, payment_method_nonce: payment_method_nonce, plan_id: plan_id)
       end
 
       def update(id:, payment_method_nonce:)

@@ -26,6 +26,7 @@ require "subscription_payment/providers/braintree/customer"
 require "subscription_payment/providers/braintree/subscription"
 require "subscription_payment/providers/braintree/client_token"
 require "subscription_payment/providers/braintree/webhook"
+require "subscription_payment/providers/braintree/payment_method"
 
 # Interfaces
 require "subscription_payment/interfaces/base"
@@ -39,6 +40,7 @@ require "subscription_payment/services/braintree/plan"
 require "subscription_payment/services/braintree/subscription"
 require "subscription_payment/services/braintree/client_token"
 require "subscription_payment/services/braintree/webhook"
+require "subscription_payment/services/braintree/payment_method"
 
 # Factory
 require "subscription_payment/factories/factory"
@@ -51,3 +53,4 @@ require "subscription_payment/main/plan"
 require "subscription_payment/main/subscription"
 require "subscription_payment/main/client_token"
 require "subscription_payment/main/webhook"
+require "subscription_payment/main/payment_method"

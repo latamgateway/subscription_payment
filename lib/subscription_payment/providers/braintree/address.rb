@@ -47,7 +47,8 @@ module SubscriptionPayment
             locality: address.locality,
             region: address.region,
             postal_code: address.postal_code,
-            extended_address: address.extended_address
+            extended_address: address.extended_address,
+            countryCodeAlpha2: 'BR',
           }
 
           result = gateway.address.update(address.customer_id, address.id, payload)
