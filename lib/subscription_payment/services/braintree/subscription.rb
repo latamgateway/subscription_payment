@@ -9,8 +9,8 @@ module SubscriptionPayment
           @service = SubscriptionPayment::Providers::Braintree::Subscription.new
         end
 
-        def find(id:)
-          @service.find(id: id)
+        def find(id:,destination:)
+          @service.find(id: id, destination: destination)
         end
 
         def create(id:, payment_method_nonce:, plan_id:)

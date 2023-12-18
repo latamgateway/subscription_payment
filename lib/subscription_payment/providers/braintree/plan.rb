@@ -14,6 +14,8 @@ module SubscriptionPayment
         def find(id:)
           plan = gateway.plan.find(id)
           to_plan(plan)
+        rescue => e
+          raise SubscriptionPayment::Exceptions::GeneralError.new(e.message)
         end
 
         sig do
@@ -24,7 +26,10 @@ module SubscriptionPayment
         def create(plan:)
           payload = plan_payload(plan)
           response = gateway.plan.create(payload)
-          puts response.plan
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
+
           to_plan(response.plan)
         end
 
@@ -39,6 +44,10 @@ module SubscriptionPayment
           payload.delete(:billing_frequency)
 
           response = gateway.plan.update(plan.id, payload)
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
+
           to_plan(response.plan)
         end
 

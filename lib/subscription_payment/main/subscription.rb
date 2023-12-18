@@ -7,8 +7,8 @@ module SubscriptionPayment
         @service = gateway.service
       end
 
-      def find(id:)
-        @service.subscription.find(id: id)
+      def find(id:, destination:)
+        @service.subscription.find(id: id, destination: destination)
       end
 
       def create(id:, payment_method_nonce:, plan_id:)

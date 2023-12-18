@@ -31,10 +31,6 @@ module SubscriptionPayment
         def webhook
           SubscriptionPayment::Services::Braintree::Webhook.new
         end
-
-        def payment_method
-          SubscriptionPayment::Services::Braintree::PaymentMethod.new
-        end
       end
     end
   end

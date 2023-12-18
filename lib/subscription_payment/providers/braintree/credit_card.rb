@@ -14,6 +14,8 @@ module SubscriptionPayment
         def find(token:)
           credit_card = gateway.credit_card.find(token)
           to_credit_card(credit_card)
+        rescue => e
+          raise SubscriptionPayment::Exceptions::GeneralError.new(e.message)
         end
 
         sig do
@@ -33,8 +35,12 @@ module SubscriptionPayment
               verify_card: true
             }
           }
-          result = gateway.credit_card.create(payload)
-          to_credit_card(result.credit_card)
+          response = gateway.credit_card.create(payload)
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
+
+          to_credit_card(response.credit_card)
         end
 
         sig do
@@ -47,8 +53,12 @@ module SubscriptionPayment
             billing_address_id: credit_card.address_id
           }
 
-          result = gateway.credit_card.update(credit_card.token, payload)
-          to_credit_card(result.credit_card)
+          response = gateway.credit_card.update(credit_card.token, payload)
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
+
+          to_credit_card(response.credit_card)
         end
 
         sig do
@@ -57,8 +67,12 @@ module SubscriptionPayment
           ).returns(String)
         end
         def create_nonce(token:)
-          result = gateway.payment_method_nonce.create(token)
-          result.payment_method_nonce.nonce
+          response = gateway.payment_method_nonce.create(token)
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
+
+          response.payment_method_nonce.nonce
         end
       end
     end

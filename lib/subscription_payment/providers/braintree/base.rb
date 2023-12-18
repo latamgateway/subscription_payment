@@ -21,7 +21,6 @@ module SubscriptionPayment
         end
 
         def to_customer(from)
-
           addresses = []
           if from.addresses && from.addresses.size > 0
             from.addresses.map do |address|
@@ -89,7 +88,7 @@ module SubscriptionPayment
             )
         end
 
-        def to_subscription(from)
+        def to_subscription(from, destination)
           transactions = []
           from.transactions.each do |element|
             transaction_hash = {
@@ -102,12 +101,17 @@ module SubscriptionPayment
               order_id: element.order_id,
               tax_amount: element.tax_amount,
               type: element.type,
-              card_holder: element.credit_card_details.cardholder_name,
               card_last_digits: element.credit_card_details.last_4,
-              card_bin: element.credit_card_details.bin,
-              card_expiration: element.credit_card_details.expiration_date,
-              card_brand: element.credit_card_details.card_type,
+              card_brand: element.credit_card_details.card_type
             }
+
+            if destination == 'internal'
+              transaction_hash.merge!(
+                card_holder: element.credit_card_details.cardholder_name,
+                card_bin: element.credit_card_details.bin,
+                card_expiration: element.credit_card_details.expiration_date,
+              )
+            end
 
             transaction_hash[:is_three_d_secure] = true unless element.three_d_secure_info.nil?
             transaction_hash[:three_d_secure_status] = element.three_d_secure_info.status \
