@@ -14,6 +14,8 @@ module SubscriptionPayment
         def find(id:)
           subscription = gateway.subscription.find(id)
           to_subscription(subscription)
+        rescue => e
+          raise SubscriptionPayment::Exceptions::GeneralError.new(e.message)
         end
 
         sig do
@@ -24,8 +26,12 @@ module SubscriptionPayment
           ).returns(SubscriptionPayment::Entity::Subscription)
         end
         def create(id:, payment_method_nonce:, plan_id:)
-          result = gateway.subscription.create(id: id, payment_method_nonce: payment_method_nonce, plan_id: plan_id)
-          to_subscription(result.subscription)
+          response = gateway.subscription.create(id: id, payment_method_nonce: payment_method_nonce, plan_id: plan_id)
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
+
+          to_subscription(response.subscription)
         end
 
         sig do
@@ -35,8 +41,12 @@ module SubscriptionPayment
           ).returns(SubscriptionPayment::Entity::Subscription)
         end
         def update(id:, payment_method_nonce:)
-          result = gateway.subscription.update(id, payment_method_nonce: payment_method_nonce)
-          to_subscription(result.subscription)
+          response = gateway.subscription.update(id, payment_method_nonce: payment_method_nonce)
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
+
+          to_subscription(response.subscription)
         end
 
         sig do
@@ -45,8 +55,12 @@ module SubscriptionPayment
           ).returns(SubscriptionPayment::Entity::Subscription)
         end
         def cancel(id:)
-          result = gateway.subscription.cancel(id)
-          to_subscription(result.subscription)
+          response = gateway.subscription.cancel(id)
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
+
+          to_subscription(response.subscription)
         end
 
         sig do
@@ -55,9 +69,12 @@ module SubscriptionPayment
           ).returns(SubscriptionPayment::Entity::Subscription)
         end
         def retry_charge(id:)
-          result = gateway.subscription.retry_charge(id, nil, true)
-          puts result.inspect
-          to_subscription(result.subscription)
+          response = gateway.subscription.retry_charge(id, nil, true)
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
+
+          to_subscription(response.subscription)
         end
       end
     end

@@ -15,6 +15,8 @@ module SubscriptionPayment
         def find(id:, customer_id:)
           address = gateway.address.find(customer_id, id)
           to_address(address)
+        rescue => e
+          raise SubscriptionPayment::Exceptions::GeneralError.new(e.message)
         end
 
         sig do
@@ -32,8 +34,12 @@ module SubscriptionPayment
             extended_address: address.extended_address
           }
 
-          result = gateway.address.create(payload)
-          to_address(result.address)
+          response = gateway.address.create(payload)
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
+
+          to_address(response.address)
         end
 
         sig do
@@ -51,8 +57,12 @@ module SubscriptionPayment
             countryCodeAlpha2: 'BR',
           }
 
-          result = gateway.address.update(address.customer_id, address.id, payload)
-          to_address(result.address)
+          response = gateway.address.update(address.customer_id, address.id, payload)
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
+
+          to_address(response.address)
         end
       end
     end

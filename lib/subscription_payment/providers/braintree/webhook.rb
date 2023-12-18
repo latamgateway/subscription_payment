@@ -17,6 +17,7 @@ module SubscriptionPayment
             bt_signature,
             bt_payload.gsub(" ", "\n")
           )
+          
           to_subscription(result.subscription)
         end
       end

@@ -14,6 +14,8 @@ module SubscriptionPayment
         def find(id:)
           customer = gateway.customer.find(id)
           to_customer(customer)
+        rescue => e
+          raise SubscriptionPayment::Exceptions::GeneralError.new(e.message)
         end
 
         sig do
@@ -27,24 +29,11 @@ module SubscriptionPayment
             email: customer.email,
             phone: customer.phone,
             custom_fields: { document: customer.document }
-            # credit_card: {
-            #   cardholder_name: customer.credit_card.holder_name,
-            #   number: customer.credit_card.number,
-            #   expiration_date: customer.credit_card.expiration_date,
-            #   cvv: customer.credit_card.cvv,
-            #   options: {
-            #     make_default: true,
-            #     verify_card: true
-            #   },
-            #   billing_address: {
-            #     street_address: customer.billing_address.street_address,
-            #     locality: customer.billing_address.locality,
-            #     region: customer.billing_address.region,
-            #     postal_code: customer.billing_address.postal_code,
-            #     extended_address: customer.billing_address.extended_address
-            #   }
-            # }
           )
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
+
           to_customer(response.customer)
         end
 
@@ -61,6 +50,9 @@ module SubscriptionPayment
             phone: customer.phone,
             custom_fields: { document: customer.document }
           )
+
+          raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
+            unless response.success?
 
           to_customer(response.customer)
         end
