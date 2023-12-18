@@ -13,6 +13,7 @@ require "subscription_payment/entity/customer"
 require "subscription_payment/entity/transaction"
 require "subscription_payment/entity/subscription"
 require "subscription_payment/entity/client_token"
+require "subscription_payment/entity/webhook"
 
 # Providers
 #
