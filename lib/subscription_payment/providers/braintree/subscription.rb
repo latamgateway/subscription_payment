@@ -8,12 +8,13 @@ module SubscriptionPayment
 
         sig do
           params(
-            id: String
+            id: String,
+            destination: T.nilable(String)
           ).returns(SubscriptionPayment::Entity::Subscription)
         end
-        def find(id:)
+        def find(id:, destination: 'internal')
           subscription = gateway.subscription.find(id)
-          to_subscription(subscription)
+          to_subscription(subscription, destination)
         rescue => e
           raise SubscriptionPayment::Exceptions::GeneralError.new(e.message)
         end
@@ -31,7 +32,7 @@ module SubscriptionPayment
           raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
             unless response.success?
 
-          to_subscription(response.subscription)
+          to_subscription(response.subscription, 'internal')
         end
 
         sig do
@@ -46,7 +47,7 @@ module SubscriptionPayment
           raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
             unless response.success?
 
-          to_subscription(response.subscription)
+          to_subscription(response.subscription, 'api')
         end
 
         sig do
@@ -60,7 +61,7 @@ module SubscriptionPayment
           raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
             unless response.success?
 
-          to_subscription(response.subscription)
+          to_subscription(response.subscription, 'api')
         end
 
         sig do
@@ -74,7 +75,7 @@ module SubscriptionPayment
           raise SubscriptionPayment::Exceptions::GeneralError.new(response.message) \
             unless response.success?
 
-          to_subscription(response.subscription)
+          to_subscription(response.subscription, 'internal')
         end
       end
     end
