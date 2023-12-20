@@ -19,7 +19,7 @@ module SubscriptionPayment
           )
 
           webhook = SubscriptionPayment::Entity::Webhook.new(kind: result.kind)
-          webhook.subscription = to_subscription(result.subscription)\
+          webhook.subscription = to_subscription(result.subscription, 'internal')\
             unless result.subscription.nil?
 
           webhook
