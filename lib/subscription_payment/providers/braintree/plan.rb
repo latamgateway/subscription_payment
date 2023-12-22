@@ -62,7 +62,7 @@ module SubscriptionPayment
           }
 
           payload[:billing_day_of_month] = plan.billing_day_of_month unless plan.billing_day_of_month.nil?
-          payload[:number_of_billing_cycles] = plan.number_of_billing_cycles unless plan.number_of_billing_cycles.nil?
+          payload[:number_of_billing_cycles] = plan.number_of_billing_cycles.nil? ? nil : plan.number_of_billing_cycles
           payload[:description] = plan.description unless plan.description.nil?
           payload[:id] = plan.id unless plan.id.nil?
           payload

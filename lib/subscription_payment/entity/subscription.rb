@@ -72,30 +72,94 @@ module SubscriptionPayment
         trial_period: nil,
         transactions: nil
       )
-      @id= id
-      @balance= balance
-      @created_at= created_at
-      @never_expires= never_expires
-      @plan_id= plan_id
-      @price= price
-      @status= status
-      @billing_day_of_month= billing_day_of_month
-      @billing_period_end_date= billing_period_end_date
-      @billing_period_start_date= billing_period_start_date
-      @current_billing_cycle= current_billing_cycle
-      @days_past_due= days_past_due
-      @description= description
-      @failure_count= failure_count
-      @first_billing_date= first_billing_date
-      @next_billing_date= next_billing_date
-      @next_billing_period_amount= next_billing_period_amount
-      @number_of_billing_cycles= number_of_billing_cycles
-      @paid_through_date= paid_through_date
-      @updated_at= updated_at
-      @trial_duration= trial_duration
-      @trial_duration_unit= trial_duration_unit
-      @trial_period= trial_period
-      @transactions= transactions
+        @id= id
+        @balance= balance
+        @created_at= created_at
+        @never_expires= never_expires
+        @plan_id= plan_id
+        @price= price
+        @status= status
+        @billing_day_of_month= billing_day_of_month
+        @billing_period_end_date= billing_period_end_date
+        @billing_period_start_date= billing_period_start_date
+        @current_billing_cycle= current_billing_cycle
+        @days_past_due= days_past_due
+        @description= description
+        @failure_count= failure_count
+        @first_billing_date= first_billing_date
+        @next_billing_date= next_billing_date
+        @next_billing_period_amount= next_billing_period_amount
+        @number_of_billing_cycles= number_of_billing_cycles
+        @paid_through_date= paid_through_date
+        @updated_at= updated_at
+        @trial_duration= trial_duration
+        @trial_duration_unit= trial_duration_unit
+        @trial_period= trial_period
+        @transactions= transactions
+      end
+
+      def to_api
+        hash = to_hash()
+        hash.delete(:next_billing_period_amount)
+        hash.delete(:trial_duration)
+        hash.delete(:trial_duration_unit)
+        hash.delete(:trial_period)
+
+        hash[:transactions].each do |transaction|
+          transaction.delete(:discount_amount)
+          transaction.delete(:tax_amount)
+          transaction.delete(:type)
+          transaction.delete(:is_three_d_secure)
+          transaction.delete(:three_d_secure_status)
+          case transaction[:status]
+          when "authorized", "authorizing", "submitted_for_settlement", "settling"
+            transaction[:status] = "Awaiting Payment"
+          when "settled"
+            transaction[:status] = "Paid"
+          when "failed", "authorization_expired", "gateway_rejected", "processor_declined", "voided"
+            transaction[:status] = "Failed"
+          when "refunded"
+            transaction[:status] = "Reversed"
+          else
+            transaction.delete(:status)
+          end
+        end
+        return hash
+      end
+
+      private
+      def to_hash
+        transactions = []
+        @transactions.each do |transaction| 
+          transactions << transaction.to_hash
+        end
+
+        {
+          id: @id,
+          balance: @balance,
+          created_at: @created_at,
+          never_expires: @never_expires,
+          plan_id: @plan_id,
+          price: @price,
+          status: @status,
+          billing_day_of_month: @billing_day_of_month,
+          billing_period_end_date: @billing_period_end_date,
+          billing_period_start_date: @billing_period_start_date,
+          current_billing_cycle: @current_billing_cycle,
+          days_past_due: @days_past_due,
+          description: @description,
+          failure_count: @failure_count,
+          first_billing_date: @first_billing_date,
+          next_billing_date: @next_billing_date,
+          next_billing_period_amount: @next_billing_period_amount,
+          number_of_billing_cycles: @number_of_billing_cycles,
+          paid_through_date: @paid_through_date,
+          updated_at: @updated_at,
+          trial_duration: @trial_duration,
+          trial_duration_unit: @trial_duration_unit,
+          trial_period: @trial_period,
+          transactions: transactions
+        }
       end
     end
   end

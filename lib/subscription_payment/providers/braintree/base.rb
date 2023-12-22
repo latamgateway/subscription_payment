@@ -88,7 +88,7 @@ module SubscriptionPayment
             )
         end
 
-        def to_subscription(from, destination)
+        def to_subscription(from, destination = 'internal')
           transactions = []
           from.transactions.each do |element|
             transaction_hash = {
