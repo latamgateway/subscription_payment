@@ -69,6 +69,28 @@ module SubscriptionPayment
         @is_three_d_secure = is_three_d_secure
         @three_d_secure_status = three_d_secure_status
       end
+
+      def to_hash
+        {
+          id: @id,
+          status: @status,
+          created_at: @created_at,
+          updated_at: @updated_at,
+          amount: @amount,
+          discount_amount: @discount_amount,
+          order_id: @order_id,
+          tax_amount: @tax_amount,
+          type: @type,
+          card_holder: @card_holder,
+          card_last_digits: @card_last_digits,
+          card_bin: @card_bin,
+          card_expiration: @card_expiration,
+          card_brand: @card_brand,
+          is_three_d_secure: @is_three_d_secure,
+          three_d_secure_status: @three_d_secure_status
+        }
+      end
+
     end
   end
 end
