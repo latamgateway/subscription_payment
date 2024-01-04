@@ -7,7 +7,7 @@ module SubscriptionPayment
         @service = gateway.service
       end
 
-      def find(id:, destination:)
+      def find(id:, destination: 'internal')
         @service.subscription.find(id: id, destination: destination)
       end
 

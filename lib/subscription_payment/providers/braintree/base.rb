@@ -150,6 +150,31 @@ module SubscriptionPayment
           )
         end
 
+        def to_transaction(element)
+          transaction_hash = {
+            id: element.id,
+            status: element.status,
+            created_at: element.created_at.strftime("%Y-%m-%d"),
+            updated_at: element.updated_at.strftime("%Y-%m-%d"),
+            amount: element.amount.to_f,
+            discount_amount: element.discount_amount.to_f,
+            order_id: element.order_id,
+            tax_amount: element.tax_amount,
+            type: element.type,
+            card_last_digits: element.credit_card_details.last_4,
+            card_brand: element.credit_card_details.card_type,
+            card_holder: element.credit_card_details.cardholder_name,
+            card_bin: element.credit_card_details.bin,
+            card_expiration: element.credit_card_details.expiration_date,
+          }
+
+          transaction_hash[:is_three_d_secure] = true unless element.three_d_secure_info.nil?
+          transaction_hash[:three_d_secure_status] = element.three_d_secure_info.status \
+            unless element.three_d_secure_info.nil?
+
+          SubscriptionPayment::Entity::Transaction.new(**transaction_hash)
+        end
+
         def to_client_token(token)
           SubscriptionPayment::Entity::ClientToken.new(
             client_token: token
