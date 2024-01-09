@@ -11,6 +11,10 @@ module SubscriptionPayment
         def refund(id:)
           @service.refund(id: id)
         end
+
+        def void(id:)
+          @service.void(id: id)
+        end
       end
     end
   end
