@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    subscription_payment (1.0.0)
+    subscription_payment_api (1.0.0)
       braintree
       sorbet-runtime
 
@@ -79,7 +79,7 @@ DEPENDENCIES
   rspec
   rubocop
   sorbet-static
-  subscription_payment!
+  subscription_payment_api!
 
 BUNDLED WITH
    2.4.13
