@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "subscription_payment"
+require "subscription_payment_api"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
