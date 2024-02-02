@@ -27,7 +27,15 @@ module SubscriptionPaymentApi
           ).returns(SubscriptionPaymentApi::Entity::Subscription)
         end
         def create(id:, payment_method_nonce:, plan_id:)
-          response = gateway.subscription.create(id: id, payment_method_nonce: payment_method_nonce, plan_id: plan_id)
+          merchant_id = ENV["BRAINTREE_ACCOUNT_ID"]
+
+          payload = {
+            id: id, payment_method_nonce: payment_method_nonce, plan_id: plan_id
+          }
+
+          payload[:merchant_account_id] = merchant_id unless merchant_id.nil?
+
+          response = gateway.subscription.create(**payload)
 
           raise SubscriptionPaymentApi::Exceptions::GeneralError.new(response.message) \
             unless response.success?
@@ -42,7 +50,15 @@ module SubscriptionPaymentApi
           ).returns(SubscriptionPaymentApi::Entity::Subscription)
         end
         def update(id:, payment_method_nonce:)
-          response = gateway.subscription.update(id, payment_method_nonce: payment_method_nonce)
+          merchant_id = ENV["BRAINTREE_ACCOUNT_ID"]
+
+          payload = {
+            payment_method_nonce: payment_method_nonce
+          }
+
+          payload[:merchant_account_id] = merchant_id unless merchant_id.nil?
+
+          response = gateway.subscription.update(id, **payload)
 
           raise SubscriptionPaymentApi::Exceptions::GeneralError.new(response.message) \
             unless response.success?
