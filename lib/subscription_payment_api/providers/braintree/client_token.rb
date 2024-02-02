@@ -10,7 +10,10 @@ module SubscriptionPaymentApi
           returns(SubscriptionPaymentApi::Entity::ClientToken)
         end
         def create
-          token = gateway.client_token.generate
+          merchant_id = ENV["BRAINTREE_ACCOUNT_ID"]
+          token = merchant_id.nil? \
+                    ? gateway.client_token.generate
+                    : gateway.client_token.generate(merchant_account_id: merchant_id)
           to_client_token(token)
         end
       end
