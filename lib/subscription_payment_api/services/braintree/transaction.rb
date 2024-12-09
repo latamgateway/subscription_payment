@@ -15,6 +15,10 @@ module SubscriptionPaymentApi
         def void(id:)
           @service.void(id: id)
         end
+
+        def find(id:)
+          @service.find(id: id)
+        end
       end
     end
   end

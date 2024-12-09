@@ -25,6 +25,18 @@ module SubscriptionPaymentApi
           params(id: String)
             .returns(SubscriptionPaymentApi::Entity::Transaction)
         end
+        def find(id:)
+          response = gateway.transaction.find(id)
+
+          to_transaction(response)
+        rescue => e
+          raise SubscriptionPaymentApi::Exceptions::GeneralError.new(e.message)
+        end
+
+        sig do
+          params(id: String)
+            .returns(SubscriptionPaymentApi::Entity::Transaction)
+        end
         def void(id:)
           response = gateway.transaction.void(id)
 
